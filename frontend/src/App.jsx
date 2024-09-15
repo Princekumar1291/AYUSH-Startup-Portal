@@ -2,9 +2,14 @@ import React from 'react'
 
 function App() {
   return (
-    <div>
-      Hello Vite + React
-    </div>
+    <>
+      <h1>
+        Hello Vite + React
+      </h1>
+      <h2>
+        create your own branch and start adding to it
+      </h2>
+    </>
   )
 }
 
