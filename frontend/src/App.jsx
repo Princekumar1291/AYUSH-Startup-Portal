@@ -1,14 +1,14 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home/Home'
 
 function App() {
   return (
     <>
-      <h1 className='text-3xl font-bold underline my-4'>
-        Hello Vite + React
-      </h1>
-      <h2 className='text-2xl'>
-        create your own branch and start adding to it
-      </h2>
+      <Routes>
+        <Route path="/" element={<Home />}>
+        </Route>
+      </Routes>
     </>
   )
 }
