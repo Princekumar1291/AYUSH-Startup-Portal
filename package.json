@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    
+    "lint": "cd frontend && npm run lint && cd ../backend && npm run lint",
+    "format": "cd frontend && npm run format && cd ../backend && npm run format",
     "prepare": "husky"
   },
   "keywords": [],

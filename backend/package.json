@@ -10,5 +10,10 @@
   "keywords": [],
   "author": "Prince",
   "license": "ISC",
-  "description": "backend of the web"
+  "description": "backend of the web",
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0"
+  }
 }
