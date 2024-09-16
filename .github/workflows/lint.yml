@@ -21,7 +21,7 @@ jobs:
         run: cd frontend && npm install --legacy-peer-deps
 
       - name: Install Dependencies for backend
-        run: cd frontend && npm install --legacy-peer-deps
+        run: cd backend && npm install --legacy-peer-deps
 
       - name: Run linting check
         run: npm run lint
