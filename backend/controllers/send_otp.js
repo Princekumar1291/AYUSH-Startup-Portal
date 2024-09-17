@@ -11,8 +11,9 @@ const router = express.Router();
 
 const otpStorage = {}; // Temporary in-memory store. Use Redis or DB in production.
 router.post('/send-otp', async (req, res) => {
+  const { email } = req.cookies.email;s
 
-  const  {email}  = req.body;
+
 
   // Find the user by email
   const user = await prisma.user.findUnique({ where: { email } });
@@ -21,12 +22,11 @@ router.post('/send-otp', async (req, res) => {
     return res.status(404).json({ message: 'User not found' });
   }
   // Generate OTP
+
   const otp = generateOTP();
 
-  // Store OTP with an expiration time (e.g., 10 minutes)
   otpStorage[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };
 
-  // Send OTP via email
   await sendOTPEmail(email, otp);
 
   res.json({ token: await hash(otp, 10) }); // Return a hashed version of OTP as a token
@@ -36,16 +36,15 @@ router.post('/send-otp', async (req, res) => {
 router.post('/verify-otp', async (req, res) => {
     const { token, otp,email } = req.body;
   
-    // Check if OTP exists and is still valid
     if (!otpStorage[email] || otpStorage[email].expiresAt < Date.now()) {
       return res.status(400).json({ message: 'OTP expired or invalid' });
     }
   
-    // Verify the OTP
     if (!comparePassword(otp, token)) {
       return res.status(400).json({ message: 'Invalid OTP' });
     }
   
+
     delete otpStorage[email]; // Clear OTP after successful verification
 
     const resp = await prisma.user.findUnique({ where: { email } });
@@ -57,6 +56,9 @@ router.post('/verify-otp', async (req, res) => {
         sameSite: "Lax",
         secure: false,    // Use true for production with HTTPS
       });
+
+    delete otpStorage[email]; 
+
   
     res.json({ message: 'OTP verified successfully' });
   });
