@@ -11,6 +11,7 @@ function Home() {
         <li>redux-toolkit has been added</li>
         <li>tailwind css has been added</li>
       </ul>
+      
     </div>
   )
 }
