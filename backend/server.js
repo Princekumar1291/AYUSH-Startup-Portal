@@ -15,7 +15,12 @@
     credentials: true
   }));
 
-  app.use("/api/v1/", authRoutes);
+  app.get("/", (req, res) => {
+    console.log(req.cookies);
+    res.send("hello")
+  })
+
+  app.use("/api/v1", authRoutes);
 
   app.listen(ENV.PORT, () => {
     console.log(`Server is running in port ${ENV.PORT}`);

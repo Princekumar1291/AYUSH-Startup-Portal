@@ -27,9 +27,9 @@ router.post('/',async (req,res)=>{
     }
 
     res.cookie("email", email, { 
-    httpOnly: true,
-    secure: false, 
-    sameSite: 'None'
+        httpOnly: false,  
+        sameSite: "Lax",
+        secure: false,
      });
     res.json({ status: "success" });
 

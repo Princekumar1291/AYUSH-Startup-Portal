@@ -8,12 +8,19 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [category, setCategory] = useState(null);
 
-  const navigator = useNavigate()
+  const navigator = useNavigate();
+
+  const auth = useSelector(state => state.auth.auth);
+  if(auth){
+    navigator("/dashboard")
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -28,9 +35,11 @@ export default function SignupPage() {
     axios.post('http://localhost:3000/api/v1/user_signup', data)
     .then((response) => {
       console.log(response)
+      toast.success("User created successfully!");
       navigator('/login')
     })
     .catch((error) => {
+      toast.error("Something went wrong");
       console.error(error)
     })
     console.log('Signup form submitted')

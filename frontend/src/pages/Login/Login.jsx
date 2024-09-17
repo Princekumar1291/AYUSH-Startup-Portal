@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -8,14 +7,19 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from 'react-router-dom'
-import { setToken } from '@/redux/authSlice'
+import { toast } from 'sonner'
+import { useSelector } from 'react-redux'
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
 
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+const auth = useSelector(state => state.auth.auth);
+  if(auth){
+    navigate("/dashboard")
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -24,13 +28,17 @@ export default function LoginPage() {
       password: event.target.password.value
     }
 
-    axios.post('http://localhost:3000/api/v1/user_login', requestBody,{ withCredentials: true })
+    axios.post('http://localhost:3000/api/v1/user_login', requestBody, {withCredentials: true} )
     .then((response) => {
-    
-      navigate('/otpverify');    // Redirect after login
+      console.log(response);
+      toast.success('OTP has been sent to your email.')
+      navigate('/otpverify');    
+      
+
     })
     .catch((error) => {
-      console.error(error)
+      console.error(error);
+      toast.error('Something went wrong!')
     })
 
 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Leaf, Menu, X } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const navItems = [
   { name: 'Home', to: '/' },
@@ -17,6 +18,11 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const  isAuthenticated  = useSelector(state => state.auth.auth); 
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    Cookies.remove('token'); // Clear the token cookie
+    navigate('/login'); // Redirect to the login page
+  };
 
   const isActive = (to) => location.pathname === to;
 
@@ -52,8 +58,10 @@ export default function Navbar() {
               </Link>
             )}
             {isAuthenticated ? (
-              <Button asChild>
-                <Link to={'/logout'} className='bg-green-500 hover:bg-green-600 transition' href="/logout">Logout</Link>
+              <Button 
+              onClick={handleLogout}
+              className="bg-green-500 hover:bg-green-600 transition" >
+               Logout
               </Button>
             ) : (
               <Button asChild>

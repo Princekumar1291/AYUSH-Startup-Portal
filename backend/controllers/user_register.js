@@ -36,11 +36,11 @@ router.post('/',async (req,res)=>{
         res.json({status:'success'});
     }).catch((err)=>{
         console.log(err);
-        res.json(err);
+        throw new Error(err);
     })
     } catch (error) {
         console.log(error);
-        return res.status(400).json({z:"df"});
+        return res.status(400).json({error});
     }
 });
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,24 +7,40 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-
-function getCookieValue(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/redux/authSlice'
+import { toast } from 'sonner'
+import { getCookie } from '@/lib/getCookie'
 
 
-export default function LoginPage() {
+
+
+
+export default function VerifyOTPPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState(null);
 
-  console.log(document.cookie, "document.cookie")
 
-  const email = decodeURIComponent(getCookieValue('email')) || "random@gmail.com";
+  const email = getCookie('email') || "";
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if(email == ""){
+      toast.error("Please login again!");
+      navigate("/login")
+      return;
+    }
+    axios.post('http://localhost:3000/api/v1/otp/send-otp', {}, { withCredentials: true })
+      .then((response) => {
+        setToken(response.data.token)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -36,12 +51,16 @@ export default function LoginPage() {
       email: email
     }
 
-    axios.post('http://localhost:3000/api/v1/otp/verify-otp', requestBody,{ withCredentials: true })
+    axios.post('http://localhost:3000/api/v1/otp/verify-otp', requestBody, {withCredentials: true})
     .then((response) => {
       console.log(response)
-      navigate('/dashboard'); 
+      dispatch(setUser(true));
+      toast.success('OTP verified successfully.');
+      navigate('/dashboard');    
+
     })
     .catch((error) => {
+      toast.error('Something went wrong.');
       console.error(error)
     })
 
