@@ -24,20 +24,10 @@ export default function LoginPage() {
       password: event.target.password.value
     }
 
-<<<<<<< HEAD
     axios.post('http://localhost:3000/api/v1/user_login', requestBody,{ withCredentials: true })
     .then((response) => {
     
       navigate('/otpverify');    // Redirect after login
-=======
-    axios.post('http://localhost:3000/api/v1/user_login', requestBody, {withCredentials: true} )
-    .then((response) => {
-      console.log(response)
-      // const token = response.data.token; // Assuming the token is in the response
-      // dispatch(setToken(token)); // Store the token in Redux
-      // navigate('/otpverify');    // Redirect after login
-      console.log('Login form submitted')
->>>>>>> 936e8c6 (feat: Configured the protected and public routes)
     })
     .catch((error) => {
       console.error(error)
