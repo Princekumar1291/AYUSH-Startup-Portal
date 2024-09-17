@@ -3,16 +3,19 @@ const { hashPassword, comparePassword } = require("../utils/hash");
 const { generateToken } = require("../utils/jwt");
 const { registerSchema, loginSchema } = require("../schemas/auth.schema");
 const { ZodError } = require("zod");
-
-// const prisma = new PrismaClient();
+const prisma = require("../config/db");
 
 const register = async (req, res) => {
   try {
     const { fullname, email, password } = registerSchema.parse(req.body);
     const hashedPassword = await hashPassword(password);
-    // const user = await prisma.user.create({
-    //   data: { email, password: hashedPassword },
-    // });
+    const user = await prisma.user.create({
+      data: {
+        fullname,
+        email,
+        password: hashedPassword,
+      },
+    });
     res.status(201).json({ fullname, email, password,  hashedPassword });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -33,6 +36,13 @@ const login = async (req, res) => {
     // }
 
     // const token = generateToken(user.id);
+
+    const resp = await prisma.user.findUnique({ where: { email } });
+    if (!resp || !(await comparePassword(password, resp.password))) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    
+
     res.status(200).json({ email, password });
   } catch (error) {
     if (error instanceof ZodError) {
