@@ -33,14 +33,17 @@ export default function Navbar() {
 
   return (
     <header className="bg-white shadow-sm">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
+      <nav className="mx-auto px-4 sm:px-0 lg:px-8" aria-label="Top">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/">
             <div className="flex">
+            <div>
+                <img src="https://ayush.gov.in/images/logo/1.jpg" alt="" />
+              </div>
               <div className="flex-shrink-0 flex items-center">
                 <Leaf className="h-8 w-8 text-green-600" />
-                <span className="ml-2 text-2xl font-bold text-green-800">AYUSH Portal</span>
+                <span className="ml-2 text-2xl font-bold text-green-800 pr-8">AYUSH Portal</span>
               </div>
             </div>
             </Link>
