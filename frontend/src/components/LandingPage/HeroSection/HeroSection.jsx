@@ -16,7 +16,7 @@ const HeroSection = () => {
       <div className="mt-10 max-w-sm mx-auto sm:flex sm:justify-center md:mt-12">
         <div className="rounded-md shadow">
           <Button className="w-full flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10" asChild>
-            <Link to="/register">
+            <Link to="/signup">
               Get Started
               <ArrowRight className="ml-2 -mr-1 w-5 h-5" />
             </Link>

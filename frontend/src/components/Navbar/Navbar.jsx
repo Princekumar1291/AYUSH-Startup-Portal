@@ -12,16 +12,9 @@ import { ChevronDown, Leaf, Menu, X } from 'lucide-react'
 const navItems = [
   { name: 'Home', to: '/' },
   { name: 'Dashboard', to: '/dashboard' },
-  { name: 'Apply', to: '/apply' },
-  { name: 'Resources', 
-    items: [
-      { name: 'Document Upload', to: '/document-upload' },
-      { name: 'Guidelines', to: '/guidelines' },
-      { name: 'FAQs', to: '/faqs' },
-    ]
-  },
+  { name: 'Apply', to: '/application-form' },
   { name: 'Notifications', to: '/notifications' },
-  { name: 'Help Center', to: '/help-center' },
+  { name: 'FAQ', to: '/faq' },
   { name: 'About AYUSH', to: '/about' },
 ]
 
