@@ -1,9 +1,21 @@
 const express = require('express');
 const prisma = require('../config/db');
 const {hashPassword} = require('../utils/hash');
+
 const router = express.Router();
 
+
+const userZodVerify = zod.object({
+    name: zod.string(),
+    email: zod.string().email(),
+    password: zod.string().min(8)
+});
+
 router.post('/',(req,res)=>{
+
+    try {
+        userZodVerify.parse(req.body);
+    
     const {name,email,password} = req.body;
 
     password = hashPassword(password);
@@ -18,6 +30,9 @@ router.post('/',(req,res)=>{
     }).catch((err)=>{
         res.json(err);
     })
+    } catch (error) {
+        return res.status(400).json({ error});
+    }
 });
 
 
