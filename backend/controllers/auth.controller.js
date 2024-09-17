@@ -8,12 +8,12 @@ const { ZodError } = require("zod");
 
 const register = async (req, res) => {
   try {
-    const { email, password } = registerSchema.parse(req.body);
+    const { fullname, email, password } = registerSchema.parse(req.body);
     const hashedPassword = await hashPassword(password);
     // const user = await prisma.user.create({
     //   data: { email, password: hashedPassword },
     // });
-    res.status(201).json({ email, password,  hashedPassword });
+    res.status(201).json({ fullname, email, password,  hashedPassword });
   } catch (error) {
     if (error instanceof ZodError) {
       res.status(400).json({ error: error.errors });

@@ -1,6 +1,7 @@
 const { z } = require('zod');
 
 const registerSchema = z.object({
+  fullname: z.string(),
   email: z.string().email(),
   password: z.string().min(6),
 });
