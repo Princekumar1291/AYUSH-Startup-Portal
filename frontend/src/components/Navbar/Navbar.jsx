@@ -82,7 +82,7 @@ export default function Navbar() {
               )
             )}
              <Button asChild>
-                <Link className='bg-green-500 hover:bg-green-600 transition' href="/login">Login</Link>
+                <Link to={'/login'} className='bg-green-500 hover:bg-green-600 transition' href="/login">Login</Link>
               </Button>
           </div>
           <div className="flex md:hidden">
