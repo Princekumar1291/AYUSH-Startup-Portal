@@ -27,7 +27,6 @@ function App() {
       dispatch(setUser(true)); // User is authenticated
     } else {
       dispatch(setUser(false)); // User is not authenticated
-      navigate('/login'); // Redirect to login if not authenticated
     }
   }, []);
   return (
