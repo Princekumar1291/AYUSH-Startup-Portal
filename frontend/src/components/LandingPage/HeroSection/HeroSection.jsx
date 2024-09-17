@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react"
 
 const HeroSection = () => {
   return (
-    <header className="py-16 sm:py-24 lg:py-32">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <header className="py-16 sm:py-24 lg:py-32 bg-custom-bg bg-cover bg-center ">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center ">
       <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
         <span className="block">Nurture Your AYUSH Startup</span>
         <span className="block text-green-600">Grow with Tradition, Innovate for Tomorrow</span>
