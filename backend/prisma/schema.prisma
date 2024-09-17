@@ -1,0 +1,84 @@
+// This is your Prisma schema file for the AYUSH Startup Registration Portal.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique
+  password       String
+  role           Role     // Roles like 'admin', 'startup', etc.
+  startups       Startup[]
+  applications   Application[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Startup {
+  id             Int       @id @default(autoincrement())
+  name           String
+  founder        String
+  email          String    @unique
+  registrationNo String    @unique
+  status         StartupStatus @default(PENDING)
+  applications   Application[]
+  userId         Int       // Foreign key for the startup owner
+  user           User      @relation(fields: [userId], references: [id])
+  documents      Document[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Application {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String
+  status         ApplicationStatus @default(SUBMITTED)
+  startupId      Int       // Foreign key for the associated startup
+  startup        Startup   @relation(fields: [startupId], references: [id])
+  userId         Int       // Foreign key for the user who submitted the application
+  user           User      @relation(fields: [userId], references: [id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Document {
+  id             Int       @id @default(autoincrement())
+  url            String
+  type           DocumentType
+  uploadedAt     DateTime  @default(now())
+  startupId      Int       // Foreign key for the associated startup
+  startup        Startup   @relation(fields: [startupId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  STARTUP
+  REVIEWER
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum StartupStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DocumentType {
+  REGISTRATION
+  BUSINESS_PLAN
+  COMPLIANCE
+}
