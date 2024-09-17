@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,12 +9,23 @@ import { Link } from 'react-router-dom'
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [showOtherField, setShowOtherField] = useState('');
+  const [category, setCategory] = useState('');
+  
 
   const handleSubmit = (event) => {
     event.preventDefault()
     // Handle signup logic here
     console.log('Signup form submitted')
   }
+
+  useEffect(() => {
+    if(category == 'others'){
+      setShowOtherField(true);
+    } else {
+      setShowOtherField(false);
+    }
+  }, [category])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col justify-center items-center p-4">
@@ -62,7 +73,7 @@ export default function SignupPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="ayushCategory">AYUSH Category</Label>
-                <Select>
+                <Select onValueChange={(value) => setCategory(value)}>
                   <SelectTrigger id="ayushCategory">
                     <SelectValue placeholder="Select AYUSH category" />
                   </SelectTrigger>
@@ -72,9 +83,15 @@ export default function SignupPage() {
                     <SelectItem value="unani">Unani</SelectItem>
                     <SelectItem value="siddha">Siddha</SelectItem>
                     <SelectItem value="homeopathy">Homeopathy</SelectItem>
+                    <SelectItem value="others">Others</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
+
+             {showOtherField && <div className="space-y-2">
+                <Label htmlFor="others">Others</Label>
+                <Input id="others" type="text" placeholder="others" required />
+              </div>}
             </div>
             <Button type="submit" className="w-full mt-6">Sign Up</Button>
           </form>
