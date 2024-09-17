@@ -13,8 +13,7 @@ function Main() {
       <Features />
       <Testimonial />
       <CTA />
-      {/* <Footer /> */}
-      <Footer></Footer>
+      <Footer/>
 
     </div>
   )
