@@ -16,9 +16,11 @@ router.post('/',async (req,res)=>{
         userZodVerify.parse(req.body);
     
     const {email,password} = req.body;
+    console.log(email,password);
 
+    const response = await prisma.user.findUnique({ where: { email:email } });
 
-    const response = await prisma.user.findUnique({ where: { email } });
+    console.log(response);
 
     if (!response || !(await comparePassword(password, response.password))) {
       return res.status(401).json({ error: "Invalid credentials" });

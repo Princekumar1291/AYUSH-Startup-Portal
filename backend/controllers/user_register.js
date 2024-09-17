@@ -1,4 +1,5 @@
 const express = require('express');
+const zod = require('zod');
 const prisma = require('../config/db');
 const {hashPassword} = require('../utils/hash');
 
@@ -8,30 +9,38 @@ const router = express.Router();
 const userZodVerify = zod.object({
     name: zod.string(),
     email: zod.string().email(),
-    password: zod.string().min(8)
+    password: zod.string().min(8),
+    ayushCategory: zod.string()
 });
 
-router.post('/',(req,res)=>{
+router.post('/',async (req,res)=>{
 
+    console.log(req.body);
     try {
         userZodVerify.parse(req.body);
     
-    const {name,email,password} = req.body;
+    const {name,email,password,ayushCategory } = req.body;
+    console.log(email,password);
+    const pass = await hashPassword(password);
+    console.log(pass);
 
-    password = hashPassword(password);
     prisma.user.create({
         data:{
             name,
             email,
-            password
+            password:pass,
+            ayushCategory,
+            role:"ADMIN"
         }
     }).then((data)=>{
         res.json({status:'success'});
     }).catch((err)=>{
+        console.log(err);
         res.json(err);
     })
     } catch (error) {
-        return res.status(400).json({ error});
+        console.log(error);
+        return res.status(400).json({z:"df"});
     }
 });
 

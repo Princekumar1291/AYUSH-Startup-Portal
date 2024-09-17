@@ -19,6 +19,7 @@ model User {
   applications   Application[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  ayushCategory  String?  // Category of AYUSH system the user belongs to
 }
 
 model Startup {

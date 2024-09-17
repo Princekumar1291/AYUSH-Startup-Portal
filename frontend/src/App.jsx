@@ -7,6 +7,7 @@ import HelpCenter from './pages/FAQ/FAQ'
 import Main from './pages/Main/Main'
 import LoginPage from './pages/Login/Login'
 import SignupPage from './pages/SignUp/SignUp'
+import OtpVerify from './pages/OtpVerify/OtpVerify'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/faq" element={<HelpCenter />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path = "/otpverify" element = {<OtpVerify />} />
       
       </Routes>
     </>
