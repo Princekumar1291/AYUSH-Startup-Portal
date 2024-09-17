@@ -1,0 +1,21 @@
+{
+  "name": "ayush-startup-portal",
+  "version": "1.0.0",
+  "description": "## Background",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "cd frontend && npm run lint && cd ../backend && npm run lint",
+    "format": "cd frontend && npm run format && cd ../backend && npm run format",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-plugin-tailwindcss": "^3.17.4",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier-plugin-tailwindcss": "^0.6.6"
+  }
+}
