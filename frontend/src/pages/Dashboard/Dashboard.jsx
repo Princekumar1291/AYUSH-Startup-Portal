@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Dashboard() {
   const [progress, setProgress] = useState(65)
-
+  const navigate = useNavigate();
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -17,20 +18,20 @@ export default function Dashboard() {
         </div>
         <nav className="mt-6">
           {[
-            { icon: Home, label: 'Dashboard' },
-            { icon: FileText, label: 'Applications' },
-            { icon: Upload, label: 'Documents' },
-            { icon: Bell, label: 'Notifications' },
-            { icon: HelpCircle, label: 'Help Center' },
+            { icon: Home, label: 'Dashboard', to: "/dashboard" },
+            { icon: FileText, label: 'Applications', to: "/application-form" },
+            { icon: Upload, label: 'Documents', to: "/document-upload" },
+            { icon: Bell, label: 'Notifications', to: "#" },
+            { icon: HelpCircle, label: 'Help Center', to: "/help-center" },
           ].map((item, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to={item.to}
               className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200"
             >
               <item.icon className="w-5 h-5 mr-2" />
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </aside>
@@ -76,7 +77,7 @@ export default function Dashboard() {
               <CardDescription>Submit required documents</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full">
+              <Button onClick={() => navigate("/document-upload")} className="w-full">
                 <Upload className="w-4 h-4 mr-2" />
                 Upload Documents
               </Button>
