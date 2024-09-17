@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": " node server.js"
   },
   "keywords": [],
   "author": "Prince",
   "license": "ISC",
-  "description": "backend of the web"
+  "description": "backend of the web",
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^5.19.1",
+    "zod": "^3.23.8"
+  }
 }
