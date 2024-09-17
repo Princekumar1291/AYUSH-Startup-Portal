@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Link } from 'react-router-dom'
+import { setToken } from '@/redux/authSlice'
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -23,17 +24,26 @@ export default function LoginPage() {
       password: event.target.password.value
     }
 
+<<<<<<< HEAD
     axios.post('http://localhost:3000/api/v1/user_login', requestBody,{ withCredentials: true })
     .then((response) => {
     
       navigate('/otpverify');    // Redirect after login
+=======
+    axios.post('http://localhost:3000/api/v1/user_login', requestBody, {withCredentials: true} )
+    .then((response) => {
+      console.log(response)
+      // const token = response.data.token; // Assuming the token is in the response
+      // dispatch(setToken(token)); // Store the token in Redux
+      // navigate('/otpverify');    // Redirect after login
+      console.log('Login form submitted')
+>>>>>>> 936e8c6 (feat: Configured the protected and public routes)
     })
     .catch((error) => {
       console.error(error)
     })
 
 
-    console.log('Login form submitted')
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,7 @@ export default function SignupPage() {
       name: event.target.fullName.value,
       email: event.target.email.value,
       password: event.target.password.value,
-      ayushCategory: "Ayurveda"
+      ayushCategory: category
     }
     console.log(data)
     axios.post('http://localhost:3000/api/v1/user_signup', data)
