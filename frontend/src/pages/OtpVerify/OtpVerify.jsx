@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
@@ -9,12 +9,21 @@ import { Label } from "@/components/ui/label"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
+function getCookieValue(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [token, setToken] = useState("")
 
-  const token = useSelector((state) => state.auth.token || "");
+  console.log(document.cookie, "document.cookie")
 
-  const email = document.cookie.email || "random@gmail.com";
+  const email = decodeURIComponent(getCookieValue('email')) || "random@gmail.com";
 
   const navigate = useNavigate()
 
@@ -23,13 +32,14 @@ export default function LoginPage() {
 
     const requestBody = {
       token: token,
-      otp: event.target.password.value
+      otp: event.target.password.value,
+      email: email
     }
 
-    axios.post('http://localhost:5000/user_login', requestBody)
+    axios.post('http://localhost:3000/api/v1/otp/verify-otp', requestBody,{ withCredentials: true })
     .then((response) => {
       console.log(response)
-      navigate('/dashboard');    // Redirect after login
+      navigate('/dashboard'); 
     })
     .catch((error) => {
       console.error(error)
@@ -38,6 +48,19 @@ export default function LoginPage() {
 
     console.log('Login form submitted')
   }
+
+
+  useEffect(() => {
+    axios.post('http://localhost:3000/api/v1/otp/send-otp',{email:email},{ withCredentials: true },)
+    .then((response) => {
+      console.log(response)
+      setToken(response.data.token)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  },[]);
+    
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col justify-center items-center p-4">
