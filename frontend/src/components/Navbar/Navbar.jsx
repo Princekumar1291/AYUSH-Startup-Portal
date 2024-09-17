@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Link, useLocation } from 'react-router-dom'
 import {
@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Menu, X } from 'lucide-react'
+import { ChevronDown, Leaf, Menu, X } from 'lucide-react'
 
 const navItems = [
   { name: 'Home', to: '/' },
@@ -36,8 +36,13 @@ export default function Navbar() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold text-primary">
-              AYUSH Portal
+            <Link to="/">
+            <div className="flex">
+              <div className="flex-shrink-0 flex items-center">
+                <Leaf className="h-8 w-8 text-green-600" />
+                <span className="ml-2 text-2xl font-bold text-green-800">AYUSH Portal</span>
+              </div>
+            </div>
             </Link>
           </div>
           <div className="hidden md:flex md:items-center md:space-x-6">
@@ -76,6 +81,9 @@ export default function Navbar() {
                 </Link>
               )
             )}
+             <Button asChild>
+                <Link className='bg-green-500 hover:bg-green-600 transition' href="/login">Login</Link>
+              </Button>
           </div>
           <div className="flex md:hidden">
             <Button
