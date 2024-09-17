@@ -1,28 +1,24 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Link, useLocation } from 'react-router-dom'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ChevronDown, Leaf, Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Link, useLocation } from 'react-router-dom';
+import { Leaf, Menu, X } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const navItems = [
   { name: 'Home', to: '/' },
-  { name: 'Dashboard', to: '/dashboard' },
-  { name: 'Apply', to: '/application-form' },
-  { name: 'Notifications', to: '/notifications' },
+  { name: 'Dashboard', to: '/dashboard', protected: true }, 
+  { name: 'Apply', to: '/application-form', protected: true },
+  { name: 'Notifications', to: '/notifications', protected: true }, 
   { name: 'FAQ', to: '/faq' },
   { name: 'About AYUSH', to: '/about' },
-]
+];
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const router = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const  isAuthenticated  = useSelector(state => state.auth.auth); 
 
-  const isActive = (to) => router.pathname === to
+  const isActive = (to) => location.pathname === to;
 
   return (
     <header className="bg-white shadow-sm">
@@ -30,56 +26,40 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/">
-            <div className="flex">
-            <div>
-                <img src="https://ayush.gov.in/images/logo/1.jpg" alt="" />
+              <div className="flex">
+                <div>
+                  <img src="https://ayush.gov.in/images/logo/1.jpg" alt="" />
+                </div>
+                <div className="flex-shrink-0 flex items-center">
+                  <Leaf className="h-8 w-8 text-green-600" />
+                  <span className="ml-2 text-2xl font-bold text-green-800 pr-8">AYUSH Portal</span>
+                </div>
               </div>
-              <div className="flex-shrink-0 flex items-center">
-                <Leaf className="h-8 w-8 text-green-600" />
-                <span className="ml-2 text-2xl font-bold text-green-800 pr-8">AYUSH Portal</span>
-              </div>
-            </div>
             </Link>
           </div>
           <div className="hidden md:flex md:items-center md:space-x-6">
-            {navItems.map((item) => 
-              item.items ? (
-                <DropdownMenu key={item.name}>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="flex items-center">
-                      {item.name} <ChevronDown className="ml-1 h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {item.items.map((subItem) => (
-                      <DropdownMenuItem key={subItem.name} asChild>
-                        <Link
-                          to={subItem.to}
-                          className={`block px-4 py-2 text-sm ${isActive(subItem.to) ? 'bg-primary text-primary-foreground' : ''}`}
-                        >
-                          {subItem.name}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link
-                  key={item.name}
-                  to={item.to}
-                  className={`text-base font-medium ${
-                    isActive(item.to)
-                      ? 'text-primary'
-                      : 'text-gray-500 hover:text-gray-900'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              )
+            {navItems.filter(item => !item.protected || isAuthenticated).map((item) =>
+              <Link
+                key={item.name}
+                to={item.to}
+                className={`text-base font-medium ${
+                  isActive(item.to)
+                    ? 'text-primary'
+                    : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                {item.name}
+              </Link>
             )}
-             <Button asChild>
+            {isAuthenticated ? (
+              <Button asChild>
+                <Link to={'/logout'} className='bg-green-500 hover:bg-green-600 transition' href="/logout">Logout</Link>
+              </Button>
+            ) : (
+              <Button asChild>
                 <Link to={'/login'} className='bg-green-500 hover:bg-green-600 transition' href="/login">Login</Link>
               </Button>
+            )}
           </div>
           <div className="flex md:hidden">
             <Button
@@ -100,7 +80,7 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2">
-            {navItems.map((item) => 
+            {navItems.filter(item => !item.protected || isAuthenticated).map((item) =>
               item.items ? (
                 <div key={item.name} className="space-y-1">
                   <Button variant="ghost" className="w-full justify-start">
