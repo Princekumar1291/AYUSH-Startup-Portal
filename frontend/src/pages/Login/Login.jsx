@@ -37,8 +37,11 @@ const auth = useSelector(state => state.auth.auth);
 
     })
     .catch((error) => {
-      console.error(error);
-      toast.error('Something went wrong!')
+      if(error.status == 401){
+        toast.error('Invalid username and password!')
+      } else {
+          toast.error('Something went wrong!')
+      }
     })
 
 
