@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,26 +7,35 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [showOtherField, setShowOtherField] = useState('');
-  const [category, setCategory] = useState('');
-  
+  const [category, setCategory] = useState(null);
+
+  const navigator = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
     // Handle signup logic here
+    const data = {
+      name: event.target.fullName.value,
+      email: event.target.email.value,
+      password: event.target.password.value,
+      ayushCategory: "Ayurveda"
+    }
+    console.log(data)
+    axios.post('http://localhost:3000/api/v1/user_signup', data)
+    .then((response) => {
+      console.log(response)
+      navigator('/login')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
     console.log('Signup form submitted')
   }
 
-  useEffect(() => {
-    if(category == 'others'){
-      setShowOtherField(true);
-    } else {
-      setShowOtherField(false);
-    }
-  }, [category])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col justify-center items-center p-4">
@@ -73,7 +83,7 @@ export default function SignupPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="ayushCategory">AYUSH Category</Label>
-                <Select onValueChange={(value) => setCategory(value)}>
+                <Select onValueChange={((value) => setCategory(value))}>
                   <SelectTrigger id="ayushCategory">
                     <SelectValue placeholder="Select AYUSH category" />
                   </SelectTrigger>
@@ -82,15 +92,14 @@ export default function SignupPage() {
                     <SelectItem value="yoga">Yoga</SelectItem>
                     <SelectItem value="unani">Unani</SelectItem>
                     <SelectItem value="siddha">Siddha</SelectItem>
-                    <SelectItem value="homeopathy">Homeopathy</SelectItem>
+                    <SelectItem value="siddha">Siddha</SelectItem>
                     <SelectItem value="others">Others</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-
-             {showOtherField && <div className="space-y-2">
-                <Label htmlFor="others">Others</Label>
-                <Input id="others" type="text" placeholder="others" required />
+           { category == 'others' &&   <div className="space-y-2">
+                <Label htmlFor="email">Other</Label>
+                <Input id="other" type="email" placeholder="other category" required />
               </div>}
             </div>
             <Button type="submit" className="w-full mt-6">Sign Up</Button>

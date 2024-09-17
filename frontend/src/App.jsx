@@ -10,6 +10,8 @@ import SignupPage from './pages/SignUp/SignUp'
 import AboutPage from './pages/About/About'
 import FAQ from './pages/FAQ/FAQ'
 import Help  from './pages/Help/Help'
+import OtpVerify from './pages/OtpVerify/OtpVerify'
+
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
         <Route path="/faq" element={<FAQ />} /> 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        
+
+        <Route path = "/otpverify" element = {<OtpVerify />} />
+      
       </Routes>
     </>
   )

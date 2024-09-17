@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,22 +11,24 @@ import { Link } from 'react-router-dom'
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
 
+  const token = useSelector((state) => state.auth.token || "");
+
+  const email = document.cookie.email || "random@gmail.com";
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const requestBody = {
-      email: event.target.email.value,
-      password: event.target.password.value
+      token: token,
+      otp: event.target.password.value
     }
 
-    axios.post('http://localhost:3000/api/v1/user_login', requestBody)
+    axios.post('http://localhost:5000/user_login', requestBody)
     .then((response) => {
-      const token = response.data.token; // Assuming the token is in the response
-      dispatch(setToken(token)); // Store the token in Redux
-      navigate('/otpverify');    // Redirect after login
+      console.log(response)
+      navigate('/dashboard');    // Redirect after login
     })
     .catch((error) => {
       console.error(error)
@@ -46,23 +47,20 @@ export default function LoginPage() {
       
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login to Your Account</CardTitle>
-          <CardDescription>Enter your email and password to access the AYUSH Startup Portal</CardDescription>
+          <CardTitle>Verify your OTP</CardTitle>
+          <CardDescription>A 6-Digit OTP has been send to {email}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
+
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="your@email.com" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Enter your OTP</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="OTP"
                     required
                   />
                   <Button
@@ -78,13 +76,10 @@ export default function LoginPage() {
                 </div>
               </div>
             </div>
-            <Button type="submit" className="w-full mt-6">Login</Button>
+            <Button type="submit" className="w-full mt-6">Verify</Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Link to="#" className="text-sm text-green-600 hover:underline">
-            Forgot your password?
-          </Link>
           <div className="text-sm text-gray-600">
             {`Don't have an account?`}
             <Link to="/signup" className="text-green-600 hover:underline">

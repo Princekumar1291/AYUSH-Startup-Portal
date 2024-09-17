@@ -6,7 +6,7 @@ const send_otp = require('../controllers/send_otp');
 
 const router = express.Router();
 
-router.use("/user_register", user_register);
+router.use("/user_signup", user_register);
 router.use("/user_login", user_login);
 router.use("/otp",send_otp);
 

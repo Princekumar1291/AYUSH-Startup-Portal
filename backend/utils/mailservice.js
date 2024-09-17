@@ -1,12 +1,14 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config(); // Load environment variables from .env
 
-// Set up a Nodemailer transporter with your email service credentials
+// Set up a Nodemailer transporter with Brevo SMTP service credentials
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Or use any other email service
+  host: process.env.SMTP_HOST, // Use Brevo SMTP host
+  port: process.env.SMTP_PORT, // Use Brevo SMTP port (587 is typically for STARTTLS)
+  secure: false, // Use STARTTLS, not SSL (so set secure to false)
   auth: {
-    user: process.env.EMAIL_USER, // Email from environment variable
-    pass: process.env.EMAIL_PASS,  // Password from environment variable
+    user: process.env.EMAIL_USER, // Brevo email from env variable
+    pass: process.env.EMAIL_PASS,  // Brevo SMTP password from env variable
   },
 });
 
@@ -20,6 +22,5 @@ async function sendOTPEmail(email, otp) {
 
   await transporter.sendMail(mailOptions);
 }
-
 
 module.exports = { sendOTPEmail };
