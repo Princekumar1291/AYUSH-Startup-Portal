@@ -1,6 +1,6 @@
 const { hash } = require('bcryptjs');
 const express = require('express');
-
+const prisma = require('../config/db');
 
 const {generateOTP} = require('../utils/getotp');
 const {sendOTPEmail} = require('../utils/mailservice');
@@ -9,17 +9,16 @@ const {comparePassword}  = require('../utils/hash');
 const router = express.Router();
 
 const otpStorage = {}; // Temporary in-memory store. Use Redis or DB in production.
-
 router.post('/send-otp', async (req, res) => {
-  const { email } = req.cookies.email;s
+
+  const  {email}  = req.body;
 
   // Find the user by email
-  const user = await prisma.user.findUnique({ where: { email } });
+//   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-
+//   if (!user) {
+//     return res.status(404).json({ message: 'User not found' });
+//   }
   // Generate OTP
   const otp = generateOTP();
 
@@ -29,7 +28,7 @@ router.post('/send-otp', async (req, res) => {
   // Send OTP via email
   await sendOTPEmail(email, otp);
 
-  res.json({ token: hash(otp, 10) }); // Return a hashed version of OTP as a token
+  res.json({ token: await hash(otp, 10) }); // Return a hashed version of OTP as a token
 });
 
 

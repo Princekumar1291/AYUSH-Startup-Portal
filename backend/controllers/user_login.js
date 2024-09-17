@@ -26,7 +26,11 @@ router.post('/',async (req,res)=>{
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    res.cookie("email", email, { httpOnly: true });
+    res.cookie("email", email, {
+        httpOnly: false,  // Set to false if you need to access it in the frontend
+        sameSite: "Lax",
+        secure: false,    // Use true for production with HTTPS
+      });
     res.json({ status: "success" });
 
     } catch (error) {
