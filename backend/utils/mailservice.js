@@ -3,16 +3,18 @@ require('dotenv').config(); // Load environment variables from .env
 
 // Set up a Nodemailer transporter with Brevo SMTP service credentials
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST, // Use Brevo SMTP host
-  port: process.env.SMTP_PORT, // Use Brevo SMTP port (587 is typically for STARTTLS)
+  host: "smtp-relay.brevo.com", // Use Brevo SMTP host
+  port: 587, // Use Brevo SMTP port (587 is typically for STARTTLS)
   secure: false, // Use STARTTLS, not SSL (so set secure to false)
   auth: {
-    user: process.env.EMAIL_USER, // Brevo email from env variable
-    pass: process.env.EMAIL_PASS,  // Brevo SMTP password from env variable
+    user: "7c39a9002@smtp-brevo.com", // Brevo email from env variable
+    pass: "BWOgDPk2G73MjUHb",  // Brevo SMTP password from env variable
   },
 });
 
 async function sendOTPEmail(email, otp) {
+
+    console.log(email,otp);
   const mailOptions = {
     from: process.env.EMAIL_USER, // Use the email from env variable
     to: email,
