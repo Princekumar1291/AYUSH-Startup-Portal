@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Leaf } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,10 +14,10 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
 
 
-  const navigate = useNavigate();
+  const navigator = useNavigate();
 const auth = useSelector(state => state.auth.auth);
   if(auth){
-    navigate("/dashboard")
+    return <Navigate to={'/'} />
   }
 
   const handleSubmit = (event) => {
@@ -32,7 +32,7 @@ const auth = useSelector(state => state.auth.auth);
     .then((response) => {
       console.log(response);
       toast.success('OTP has been sent to your email.')
-      navigate('/otpverify');    
+      navigator('/otpverify');    
       
 
     })
