@@ -20,7 +20,7 @@ router.post('/',async (req,res)=>{
 
     const response = await prisma.user.findUnique({ where: { email:email } });
 
-    console.log(response);
+    console.log("response: ", response);
 
     if (!response || !(await comparePassword(password, response.password))) {
       return res.status(401).json({ error: "Invalid credentials" });
