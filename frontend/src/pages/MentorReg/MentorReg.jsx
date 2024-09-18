@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 function MentorRegistrationForm() {
   const [formData, setFormData] = useState({
@@ -8,6 +10,7 @@ function MentorRegistrationForm() {
     bio: '',
     linkedin: '',
     twitter: '',
+    number:''
   });
 
   const handleChange = (e) => {
@@ -21,7 +24,14 @@ function MentorRegistrationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Submitted:', formData);
-    // Add form submission logic here (API call)
+   axios.post('http://localhost:3000/api/v1/register-mentor', formData)
+    .then((response) => {
+      console.log(response);
+      navigator('/login')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
   };
 
   return (
@@ -79,6 +89,21 @@ function MentorRegistrationForm() {
             required
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
             placeholder="Enter your area of expertise (e.g. AI, Blockchain)"
+          />
+        </div>
+        <div className="mb-6">
+          <label htmlFor="expertise" className="block text-gray-700 font-bold mb-2">
+            Number
+          </label>
+          <input
+            type="text"
+            id="expertise"
+            name="number"
+            value={formData.number}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            placeholder="Enter your Contact Number"
           />
         </div>
 
