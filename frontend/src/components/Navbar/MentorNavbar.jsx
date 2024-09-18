@@ -7,15 +7,11 @@ import Cookies from 'js-cookie';
 
 const navItems = [
   { name: 'Home', to: '/' },
-  { name: 'Dashboard', to: '/dashboard', protected: true }, 
-  { name: 'Apply', to: '/application-form', protected: true },
-  { name: 'Notifications', to: '/notifications', protected: true }, 
   { name: 'FAQ', to: '/faq' },
-  { name: 'About AYUSH', to: '/about' },
-  { name: 'Mentor', to: '/mentor' },
+  { name: 'Mentor-Reg', to: '/mentorReg' },
 ];
 
-export default function Navbar() {
+export default function MentorNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const  isAuthenticated  = useSelector(state => state.auth.auth); 

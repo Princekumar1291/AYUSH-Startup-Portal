@@ -9,6 +9,7 @@ import SignupPage from './pages/SignUp/SignUp';
 import AboutPage from './pages/About/About';
 import FAQ from './pages/FAQ/FAQ';
 import Help from './pages/Help/Help';
+import Mentor from './pages/Mentor/Mentor';
 import OtpVerify from './pages/OtpVerify/OtpVerify';
 import PrivateRoutes from './components/PrivateRoutes/PrivateRoutes';
 import PublicLayout from './components/PublicRoutes/PublicRoutes';
@@ -17,7 +18,7 @@ import { useEffect } from 'react';
 import { getCookie } from './lib/getCookie';
 import { setUser } from './redux/authSlice';
 import { useDispatch } from 'react-redux';
-
+import MentorReg from './pages/MentorReg/MentorReg';
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -37,6 +38,8 @@ function App() {
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/document-upload" element={<DocumentUpload />} />
         <Route path = "/chat" element = {<Chat />} />
+        <Route path = "/mentor" element = {<Mentor />} />
+        <Route path='/mentorReg' element={<MentorReg/>}/>
       </Route>
 
       {/* Public routes with Navbar and Footer */}
