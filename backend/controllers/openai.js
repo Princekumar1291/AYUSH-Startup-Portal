@@ -37,7 +37,7 @@ router.post('/ai', async (req, res) => {
   console.log(dbData);
 
   // Step 3: Send query and DB data to OpenAI for processing
-  const prompt = "You are a AYUSH ministry chatbot.Ayush ministry is adepartment of government that focus on ayurveda, this is aportal that enrols startup related to ayush ministry.dont return the whole database query to the user, only return the asked one Database returned: " + dbData +  ". Based on this,first read out the question user asked and then please provide a respones of the user asked query." + "User asked: " + userQuery ;
+  const prompt = "You are a AYUSH ministry chatbot.Ayush ministry is adepartment of government that focus on ayurveda, this is aportal that enrols startup related to ayush ministry.dont return the whole database query to the user, only return the asked one Database returned: " + dbData +  ". Based on this,first read out the question user asked and then please provide a respones of the user asked query. prind the data in key-value pair and proper newline cahracter. for new line use <br/> tag format" + "User asked: " + userQuery ;
   console.log(prompt);
   try {
     const completion = await geminiModel.generateContent(prompt);
