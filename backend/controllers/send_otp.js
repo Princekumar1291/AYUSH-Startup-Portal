@@ -21,11 +21,11 @@ router.post('/send-otp', async (req, res) => {
   }
 
   const otp = generateOTP();
-
+  
   otpStorage[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };
 
   await sendOTPEmail(email, otp);
-
+  
   res.json({ token: await hash(otp, 10) }); 
  } catch (error) {
   res.status(400).json(error)

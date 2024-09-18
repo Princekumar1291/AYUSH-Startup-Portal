@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react"
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-const UploadWidget = () => {
+const UploadWidget = ({setUploadedFiles}) => {
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
 
@@ -14,7 +14,12 @@ const UploadWidget = () => {
             uploadPreset: 'ayushUpload'
         }, (error, result) => {
            if(!error && result && result.event === "success"){
-            console.log(result.info.url);
+            console.log(result.info);
+            setUploadedFiles((prev) => [...prev, {
+              name: result.info.display_name + result.info.format,
+              status: "success",
+              url: result.info.url
+            }])
            }
         })
     }, [])

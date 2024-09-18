@@ -1,14 +1,11 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { UploadCloud, CheckCircle, AlertCircle } from 'lucide-react'
+import { CheckCircle, AlertCircle } from 'lucide-react'
 import UploadWidget from '@/components/UploadWidget/UploadWidget'
 
 export default function DocumentUpload() {
-  const [uploadedFiles, setUploadedFiles] = useState([
-    { name: 'Business_Plan.pdf', status: 'success' },
-    { name: 'Financial_Projections.xlsx', status: 'error' },
-  ])
+  const [uploadedFiles, setUploadedFiles] = useState([])
 
   return (
     <div className="container mx-auto p-6">
@@ -18,7 +15,7 @@ export default function DocumentUpload() {
           <CardDescription>Upload all required documents for your AYUSH startup registration.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <UploadWidget />
+          <UploadWidget setUploadedFiles={setUploadedFiles} />
          
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Uploaded Documents</h3>
