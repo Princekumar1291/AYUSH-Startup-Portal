@@ -8,29 +8,34 @@ export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  // Example users (could be fetched from a backend)
-  const users = [];
-
   const handleSendMessage = () => {
     if (input.trim() !== "") {
-      setMessages([...messages, { text: input, sender: 'You' }]);
-      setInput("");
-    }
+      // Add user message to the messages array
+      const newMessages = [...messages, { text: input, sender: 'You' }];
+      setMessages(newMessages); // Update the state with the new array
+      setInput(""); // Clear the input field
 
-    axios.post('http://localhost:3000/api/v1/chat/ai', { userQuery: input })
-    .then((response) => {
-      setMessages([...messages, { text: response.data.response, sender: 'Bot' }]);
+      // Send user input to the server
+      axios
+        .post('http://localhost:3000/api/v1/chat/ai', { userQuery: input })
+        .then((response) => {
+          // Replace <br/> tags with newline characters
+          const botResponse = response.data.response.replace(/<br\/>/g, '\n');
+
+          // Add bot's response to the messages array
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: botResponse, sender: 'Bot' }
+          ]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-    )
-    .catch((error) => {
-      console.error(error)
-    })
   };
 
   return (
     <div className="h-screen flex">
-      {/* Sidebar for user list */}
-
       {/* Main chat area */}
       <div className="flex flex-col w-full">
         <Card className="flex-1 overflow-y-auto bg-gray-50">
@@ -49,6 +54,7 @@ export default function ChatPage() {
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-200 text-gray-900'
                     }`}
+                    style={{ whiteSpace: 'pre-wrap' }} // Ensure line breaks are rendered
                   >
                     <span className="block">{message.sender}</span>
                     <p>{message.text}</p>
