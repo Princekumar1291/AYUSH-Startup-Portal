@@ -29,7 +29,6 @@ model Startup {
   email          String    @unique
   registrationNo String    @unique
   status         StartupStatus @default(PENDING)
-  applications   Application[]
   userId         Int       // Foreign key for the startup owner
   user           User      @relation(fields: [userId], references: [id])
   documents      Document[]
@@ -40,10 +39,11 @@ model Startup {
 model Application {
   id             Int       @id @default(autoincrement())
   title          String
+  founder        String
   description    String
+  email          String
   status         ApplicationStatus @default(SUBMITTED)
-  startupId      Int       // Foreign key for the associated startup
-  startup        Startup   @relation(fields: [startupId], references: [id])
+  startupId      String       // Foreign key for the associated startup
   userId         Int       // Foreign key for the user who submitted the application
   user           User      @relation(fields: [userId], references: [id])
   createdAt      DateTime  @default(now())
