@@ -20,6 +20,7 @@
     res.send("hello")
   })
 
+
   app.use("/api/v1", authRoutes);
 
   app.listen(ENV.PORT, () => {

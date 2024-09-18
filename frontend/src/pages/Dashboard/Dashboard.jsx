@@ -1,14 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Bell, FileText, HelpCircle, Home, LogOut, Upload, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
-import { Link, useNavigate } from 'react-router-dom'
+import { json, Link, useNavigate } from 'react-router-dom'
 
 export default function Dashboard() {
   const [progress, setProgress] = useState(65)
   const navigate = useNavigate();
+
+  const [application, setApplication] = useState([]);
+
+  useEffect(() => {
+    axios.post('http://localhost:3000/api/v1/get-application',{},{withCredentials: true})
+    .then((response) => {
+
+      setApplication(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }
+  ,[]);
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -23,6 +39,7 @@ export default function Dashboard() {
             { icon: Upload, label: 'Documents', to: "/document-upload" },
             { icon: Bell, label: 'Notifications', to: "#" },
             { icon: HelpCircle, label: 'Help Center', to: "/help-center" },
+            { icon: HelpCircle, label: 'Chat', to: "/chat" },
           ].map((item, index) => (
             <Link
               key={index}
@@ -65,8 +82,28 @@ export default function Dashboard() {
               <CardDescription>Track your registration progress</CardDescription>
             </CardHeader>
             <CardContent>
-              <Progress value={progress} className="w-full mt-2" />
-              <p className="mt-2 text-sm text-gray-600">Your application is {progress}% complete</p>
+              <div className='max-h-full overflow-auto'>
+              {application.map((item, index) => {
+                return (
+                  <div key={index} className="flex items-center justify-between mt-4 w-full">
+                    <div className='w-full'>
+                      <p className="text-sm text-gray-600">{item.title}</p>
+                      <p className="font-semibold">{item.status}</p>
+                      <p className="text-sm text-gray-600">{item.founder}</p>
+                      {item.status === "Pending" ? (
+                        <Progress value={0} className="w-full mt-2" />
+                      ) : item.status === "Approved" ? (
+                        <Progress value={100} className="w-full mt-2" />
+                      ) : (
+                        <Progress value={50} className="w-full mt-2" />
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+              </div>
+              
+
             </CardContent>
           </Card>
 

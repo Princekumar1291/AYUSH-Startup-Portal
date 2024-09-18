@@ -12,13 +12,13 @@ import Help from './pages/Help/Help';
 import OtpVerify from './pages/OtpVerify/OtpVerify';
 import PrivateRoutes from './components/PrivateRoutes/PrivateRoutes';
 import PublicLayout from './components/PublicRoutes/PublicRoutes';
+import Chat from './components/Chat/Chat';
 import { useEffect } from 'react';
 import { getCookie } from './lib/getCookie';
 import { setUser } from './redux/authSlice';
 import { useDispatch } from 'react-redux';
 
 function App() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     const token = getCookie('token');
@@ -36,6 +36,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/document-upload" element={<DocumentUpload />} />
+        <Route path = "/chat" element = {<Chat />} />
       </Route>
 
       {/* Public routes with Navbar and Footer */}
@@ -52,5 +53,6 @@ function App() {
     </Routes>
   );
 }
+
 
 export default App;
